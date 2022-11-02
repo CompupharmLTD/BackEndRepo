@@ -45,7 +45,7 @@ namespace CompupharmLtd.Controllers
         [Route("CreateProduct")]
         [ResponseType(typeof(ProductResponse))]
 
-        public ProductResponse Post(Product product)
+        public ProductResponse Post(ProductRequest product)
         {
             ProductResponse products;
             products = ProductService.CreateProduct(product);

@@ -39,11 +39,22 @@ namespace CompupharmLtd.Service
             return status;
         }
 
-        public static CreateUserResponse Create(User customer)
+        public static CreateUserResponse Create(UserRequest customer)
         {
             var response = new CreateUserResponse();
             string result = string.Empty;
-             result = UserData.CreateData(customer);
+            User user = new User
+            {
+                CompanyName=customer.CompanyName,
+                CompanyPhone=customer.CompanyPhone,
+              CompanyAddress = customer.CompanyAddress,
+              Email =customer.Email,
+              Username = customer.Email,
+              Password = customer.Password,
+              CompanyCertificate=customer.CompanyCertificate,
+              
+            };
+             result = UserData.CreateData(user);
             if (result =="00")
             {
                 response.StatusCode = 00;
@@ -51,6 +62,37 @@ namespace CompupharmLtd.Service
               
             }
             else {
+                response.StatusCode = 01;
+                response.Status = "request was  unsuccessful";
+            }
+            return response;
+        }
+
+        internal static CreateUserResponse ValidateAccount(string email)
+        {
+            var response = new CreateUserResponse();
+            string result = string.Empty;
+            User user = UserData.GetUserUsingEmail(email);
+            if (user.UserID == 0)
+            {
+                response.StatusCode = 01;
+                response.Status = "request was  unsuccessful. User not found";
+                return response;
+            }
+
+            user.Email = email;
+            user.AccountVerified = 0;
+            user.Date_Verified = DateTime.Now;
+
+            result = UserData.UpdateData(user);
+            if (result == "00")
+            {
+                response.StatusCode = 00;
+                response.Status = "Successfull";
+
+            }
+            else
+            {
                 response.StatusCode = 01;
                 response.Status = "request was  unsuccessful";
             }

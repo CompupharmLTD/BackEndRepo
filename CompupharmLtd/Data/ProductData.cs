@@ -41,7 +41,7 @@ namespace CompupharmLtd.Data
                         {
                             while (reader.Read())
                             {
-                               // ([id],[product_name],[short_desc],[full_desc],[price],[quantity],[created_date],[status]
+                                // ([id],[product_name],[short_desc],[full_desc],[price],[quantity],[created_date],[status]
                                 res.ProductID = Convert.ToInt32(reader.GetOrdinal("id"));
                                 res.ProductName = reader["product_name"].ToString().Trim();
                                 res.ProductShortDescription = reader["short_desc"].ToString().Trim();
@@ -141,7 +141,76 @@ namespace CompupharmLtd.Data
             return result;
         }
 
-        internal static string EditProduct(Product value)
+        internal static Product GetProductUsingName(string productName)
+        {
+            var res = new Product();
+            //   List<Product> result = new List<Product>();
+
+
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+
+            builder.DataSource = "polling.database.windows.net";
+            builder.UserID = "pollingAdmin";
+            builder.Password = "pollAdmin$";
+            builder.InitialCatalog = "CompupharmLtd";
+
+            SqlConnection connection = new SqlConnection(builder.ConnectionString);
+
+            Console.WriteLine("\nQuery data example:");
+            Console.WriteLine("=========================================\n");
+
+            connection.Open();
+            try
+            {
+                DateTime date = DateTime.Now;
+
+                using (SqlCommand command = new SqlCommand($"Delete FROM [dbo].[products] WHERE [product_name] ='{productName}'", connection))
+                {
+
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                        if (reader != null)
+                        {
+                            while (reader.Read())
+                            {
+                                // ([id],[product_name],[short_desc],[full_desc],[price],[quantity],[created_date],[status]
+                                res.ProductID = Convert.ToInt32(reader.GetOrdinal("id"));
+                                res.ProductName = reader["product_name"].ToString().Trim();
+                                res.ProductShortDescription = reader["short_desc"].ToString().Trim();
+                                res.ProductfullDescription = reader["full_desc"].ToString().Trim();
+                                res.ProductCreatedDate = Convert.ToDateTime(reader.GetDateTime("created_date"));
+                                res.ProductStatus = reader["status"].ToString().Trim();
+                                res.ProductPrice = Convert.ToInt32(reader.GetOrdinal("price"));
+                                res.ProductQuantity = Convert.ToInt32(reader.GetOrdinal("quantity"));
+                            }
+                        } }
+
+
+
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                if (connection.State != ConnectionState.Closed)
+                {
+                    connection.Close();
+
+                }
+            }
+
+            //Console.WriteLine("\nDone. Press enter.");
+            //Console.ReadLine();
+
+
+
+            return res;
+        }
+    
+
+    internal static string EditProduct(Product value)
         {
             string result = "01";
             var res = new Product();
@@ -204,7 +273,7 @@ namespace CompupharmLtd.Data
             return result;
         }
 
-        internal static string CreateProduct(Product value)
+        internal static string CreateProduct(ProductRequest value)
         {
             string result = "01";
             var res = new Product();
@@ -228,7 +297,7 @@ namespace CompupharmLtd.Data
             {
                 DateTime date = DateTime.Now;
 
-                using (SqlCommand command = new SqlCommand($"INSERT INTO [dbo].[products] ([id],[product_name],[short_desc],[full_desc],[price],[quantity],[created_date],[status])VALUES ({value.ProductID},'{value.ProductName}','{value.ProductShortDescription}','{value.ProductfullDescription}',{value.ProductPrice},{value.ProductQuantity},@created_date,'{value.ProductStatus}')", connection))
+                using (SqlCommand command = new SqlCommand($"INSERT INTO [dbo].[products] ([product_name],[short_desc],[full_desc],[price],[quantity],[created_date],[status],[updated_date])VALUES ('{value.ProductName}','{value.ProductShortDescription}','{value.ProductfullDescription}',{value.ProductPrice},{value.ProductQuantity},@created_date,'{value.ProductStatus}',@created_date)", connection))
                 {
                     command.Parameters.Add("@created_date", SqlDbType.DateTime).Value = date;
 

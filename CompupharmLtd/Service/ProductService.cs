@@ -105,7 +105,7 @@ namespace CompupharmLtd.Service
 
             return productResponse;
         }
-        internal static ProductResponse CreateProduct(Product value)
+        internal static ProductResponse CreateProduct(ProductRequest value)
         {
             ProductResponse productResponse = new ProductResponse();
 
@@ -115,7 +115,15 @@ namespace CompupharmLtd.Service
             {
                 productResponse.statusCode = 00;
                 productResponse.status = "Successful";
-                productResponse.product = value;
+                var prod = ProductData.GetProductUsingName(value.ProductName);
+                if (prod.ProductID != 0)
+                {
+                    productResponse.product = prod;
+                }
+                else
+                {
+                    productResponse.product = null;
+                }
             }
             else
             {

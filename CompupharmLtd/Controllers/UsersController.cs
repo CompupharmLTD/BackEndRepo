@@ -45,9 +45,20 @@ namespace CompupharmLtd.Controllers
         [Route("Create")]
         [ResponseType(typeof(LoginStatus))]
 
-        public CreateUserResponse Create([FromBody] User customer)
+        public CreateUserResponse Create([FromBody] UserRequest customer)
         {
             CreateUserResponse response = UserService.Create(customer);
+            return response;
+
+
+        }
+        [HttpPut]
+        [Route("AccountValidation")]
+        [ResponseType(typeof(LoginStatus))]
+
+        public CreateUserResponse AccountValidation([FromBody] string email)
+        {
+            CreateUserResponse response = UserService.ValidateAccount(email);
             return response;
 
 

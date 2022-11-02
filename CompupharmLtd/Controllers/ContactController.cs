@@ -2,6 +2,9 @@
 //using System.Collections.Generic;
 //using System.Linq;
 //using System.Threading.Tasks;
+//using System.Web.Http.Description;
+//using CompupharmLtd.Model;
+//using CompupharmLtd.Service;
 //using Microsoft.AspNetCore.Mvc;
 
 //// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,45 +17,63 @@
 //    {
 //        // GET: api/<ContactController>
 //        [HttpGet]
-
 //        [Route("MessageList")]
+//        [ResponseType(typeof(ContactListResponse))]
 
-//        public IEnumerable<string> Get()
+//        public ContactListResponse Get(string status)
 //        {
-//            return new string[] { "value1", "value2" };
+//            ContactListResponse productList;
+//            productList = ContactService.GetAllMessages(status);
+//            return productList;
+
 //        }
 
 //        // GET api/<ContactController>/5
-//        [HttpGet("{id}")]
+//        [HttpGet]
 //        [Route("MessageByID")]
-
-//        public string Get(int id)
+//        [ResponseType(typeof(ContactResponse))]
+//        public ContactResponse GetProduct(int id)
 //        {
-//            return "value";
+//            ContactResponse product;
+//            product = ContactService.GetMessageByID(id);
+//            return product;
+
 //        }
 
-//        // POST api/<ContactController>
+//        // POST api/<ProductController>
 //        [HttpPost]
 //        [Route("CreateMessage")]
+//        [ResponseType(typeof(ContactResponse))]
 
-//        public void Post([FromBody] string value)
+//        public ContactResponse Post(Contact product)
 //        {
+//            ContactResponse products;
+//            products = ContactService.CreateMessage(product);
+//            return products;
 //        }
 
-//        // PUT api/<ContactController>/5
-//        [HttpPut("{id}")]
+//        // PUT api/<ProductController>/5
+//        [HttpPut]
 //        [Route("EditMessage")]
-
-//        public void Put(int id, [FromBody] string value)
+//        [ResponseType(typeof(ContactResponse))]
+//        public ContactResponse Put(int id, [FromBody] Contact value)
 //        {
+
+//            ContactResponse product;
+//            product = ContactService.EditMessage(value);
+//            return product;
 //        }
 
-//        // DELETE api/<ContactController>/5
-//        [HttpDelete("{id}")]
+//        // DELETE api/<ProductController>/5
+//        [HttpDelete]
 //        [Route("DeleteMessage")]
+//        [ResponseType(typeof(ContactResponse))]
 
-//        public void Delete(int id)
+//        public ContactResponse Delete(int id)
 //        {
+//            ContactResponse product;
+//            product = ContactService.DeleteMessage(id);
+//            return product;
 //        }
 //    }
 //}
