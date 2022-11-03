@@ -56,7 +56,7 @@ namespace CompupharmLtd.Controllers
         [HttpPut]
         [Route("EditProduct")]
         [ResponseType(typeof(ProductResponse))]
-        public ProductResponse Put(int id, [FromBody] Product value)
+        public ProductResponse Put( [FromBody] ProductEditRequest value)
         {
 
             ProductResponse product;

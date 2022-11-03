@@ -1,10 +1,7 @@
 ﻿using CompupharmLtd.Model;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CompupharmLtd.Data
 {
@@ -32,7 +29,7 @@ namespace CompupharmLtd.Data
 try
             {
 
-                    using (SqlCommand command = new SqlCommand($"SELECT [UserID] ,Password ,UserName,[LastLogin] FROM[dbo].[LoginCred] where UserName = '{value}'", connection))
+                    using (SqlCommand command = new SqlCommand($"SELECT UserID,Year,Password ,UserName FROM[dbo].[Customer] where UserName = '{value.ToLower()}'", connection))
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
@@ -40,12 +37,14 @@ try
                             while (reader.Read())
                             {
                           
-                                result.UserID = Convert.ToInt32(reader.GetOrdinal("UserID"));
-                                result.Password = reader["Password"].ToString().Trim() ;
-                                result.UserName = reader["UserName"].ToString().Trim();
-                                result.LastLogin = Convert.ToDateTime(reader["LastLogin"]);
+                              //  result.UserID = int.Parse(reader["UserID"]);
+                            result.UserID = int.Parse(reader["UserID"].ToString());
 
-                            }  
+                            result.Password = reader["Password"].ToString().Trim() ;
+                                result.UserName = reader["UserName"].ToString().Trim();
+                                result.Year = int.Parse(reader["Year"].ToString());
+
+                        }  
 
                         }
                     }
@@ -95,13 +94,13 @@ try
             {
                 DateTime date = DateTime.Now;
 
-                            SqlCommand cmd = new SqlCommand($"INSERT INTO [dbo].[Customer] ([YearID],[CompanyName],[UserName],[CompanyEmail] ,[CompanyPhone],[Password],[CompanyCertificate],[AccountVerified] ,[Date_Created],[Date_Updated] ,[CompanyAddress],[DateVerified]) VALUES (@yearID,@CompanyName,@UserName,@CompanyEmail,@CompanyPhone,@Password,@CompanyCertificate,@AccountVerified,@Date_Created,@Date_Updated,@CompanyAddress,@DateVerified)", connection);
+                            SqlCommand cmd = new SqlCommand($"INSERT INTO [dbo].[Customer] ([Year],[CompanyName],[UserName],[CompanyEmail] ,[CompanyPhone],[Password],[CompanyCertificate],[AccountVerified] ,[Date_Created],[Date_Updated] ,[CompanyAddress],[DateVerified]) VALUES (@yearID,@CompanyName,@UserName,@CompanyEmail,@CompanyPhone,@Password,@CompanyCertificate,@AccountVerified,@Date_Created,@Date_Updated,@CompanyAddress,@DateVerified)", connection);
        
                             cmd.Parameters.AddWithValue("@CompanyName", customer.CompanyName);
                             cmd.Parameters.AddWithValue("@CompanyPhone", customer.CompanyPhone);
                             cmd.Parameters.AddWithValue("@CompanyEmail", customer.Email);
-                            cmd.Parameters.AddWithValue("@Password", customer.Password);
-                            cmd.Parameters.AddWithValue("@UserName", customer.Username);
+                            cmd.Parameters.AddWithValue("@Password", customer.Password.ToLower());
+                            cmd.Parameters.AddWithValue("@UserName", customer.Username.ToLower());
                             cmd.Parameters.AddWithValue("@yearID",date.Year);
                             cmd.Parameters.AddWithValue("@CompanyAddress", customer.CompanyAddress);
                             cmd.Parameters.AddWithValue("@CompanyCertificate", customer.CompanyCertificate);

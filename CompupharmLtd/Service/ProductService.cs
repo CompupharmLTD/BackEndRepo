@@ -33,6 +33,26 @@ namespace CompupharmLtd.Service
         {
             ProductListResponse productList = new ProductListResponse();
             List<Product> product = new List<Product>();
+            if (status.ToLower() == "all") {
+                product = ProductData.AllProductList();
+                if (product != null)
+                {
+                    productList.statusCode = 00;
+                    productList.status = "Successful";
+                    productList.product = product;
+
+                }
+                else
+                {
+                    productList.statusCode = 01;
+                    productList.status = "Unsuccessful";
+                    productList.product = null;
+
+                }
+                return productList;
+            }
+            
+
             product = ProductData.ProductList(status);
             if (product != null) {
                 productList.statusCode=00;
@@ -73,7 +93,7 @@ namespace CompupharmLtd.Service
             return productResponse;
         }
 
-        internal static ProductResponse EditProduct(Product value )
+        internal static ProductResponse EditProduct(ProductEditRequest value )
         {
             ProductResponse productResponse = new ProductResponse();
             string result = string.Empty;
@@ -82,8 +102,21 @@ namespace CompupharmLtd.Service
                 //ProductData.EditProduct(id);
             if (product != null)
             {
-                result =ProductData.EditProduct(value);
-                if (result == "00") {
+                Product productEdit = new Product()
+                {
+
+                    ProductID = value.ProductID,
+                    ProductName = value.ProductName,
+                    ProductShortDescription = value.ProductShortDescription,
+                    ProductfullDescription = value.ProductfullDescription,
+                    ProductStatus = value.ProductStatus,
+                    ProductPrice = value.ProductPrice,
+                    ProductQuantity = value.ProductQuantity,
+                    ProductImage = value.ProductImage,
+                    ProductRestriction = value.ProductRestriction,
+                };
+                result =ProductData.EditProduct(productEdit);
+                if (result == "00") {                
 
 
                     productResponse.statusCode = 00;
@@ -115,7 +148,7 @@ namespace CompupharmLtd.Service
             {
                 productResponse.statusCode = 00;
                 productResponse.status = "Successful";
-                var prod = ProductData.GetProductUsingName(value.ProductName);
+                 var prod = ProductData.GetProductUsingName(value.ProductName);
                 if (prod.ProductID != 0)
                 {
                     productResponse.product = prod;

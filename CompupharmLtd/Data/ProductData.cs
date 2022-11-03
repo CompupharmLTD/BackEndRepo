@@ -80,6 +80,75 @@ namespace CompupharmLtd.Data
             return result;
         }
 
+        internal static List<Product> AllProductList()
+        {
+            var res = new Product();
+            List<Product> result = new List<Product>();
+
+
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+
+            builder.DataSource = "polling.database.windows.net";
+            builder.UserID = "pollingAdmin";
+            builder.Password = "pollAdmin$";
+            builder.InitialCatalog = "CompupharmLtd";
+
+            SqlConnection connection = new SqlConnection(builder.ConnectionString);
+
+            Console.WriteLine("\nQuery data example:");
+            Console.WriteLine("=========================================\n");
+
+            connection.Open();
+            try
+            {
+
+                using (SqlCommand command = new SqlCommand($"SELECT * FROM[dbo].[products]", connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader != null)
+                        {
+                            while (reader.Read())
+                            {
+                                // ([id],[product_name],[short_desc],[full_desc],[price],[quantity],[created_date],[status]
+                                res.ProductID = Convert.ToInt32(reader.GetOrdinal("id"));
+                                res.ProductName = reader["product_name"].ToString().Trim();
+                                res.ProductShortDescription = reader["short_desc"].ToString().Trim();
+                                res.ProductfullDescription = reader["full_desc"].ToString().Trim();
+                                res.ProductCreatedDate = Convert.ToDateTime(reader.GetDateTime("created_date"));
+                                res.ProductStatus = reader["status"].ToString().Trim();
+                                res.ProductPrice = Convert.ToInt32(reader.GetOrdinal("price"));
+                                res.ProductQuantity = Convert.ToInt32(reader.GetOrdinal("quantity"));
+                                result.Add(res);
+                            }
+                        }
+
+                    }
+                }
+
+
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                if (connection.State != ConnectionState.Closed)
+                {
+                    connection.Close();
+
+                }
+            }
+
+            //Console.WriteLine("\nDone. Press enter.");
+            //Console.ReadLine();
+
+
+
+            return result;
+        }
+
         internal static string DeleteProduct(int id)
         {
             string result = "01";

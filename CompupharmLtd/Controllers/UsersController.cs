@@ -34,7 +34,7 @@ namespace CompupharmLtd.Controllers
         [Route("Login")]
         [ResponseType(typeof(LoginStatus))]
 
-        public LoginStatus Login( [FromBody] LoginUser cred)
+        public LoginStatus Login( [FromBody] LoginUserRequest cred)
         {
             LoginStatus response =   UserService.Login(cred);
             return response;
@@ -56,7 +56,7 @@ namespace CompupharmLtd.Controllers
         [Route("AccountValidation")]
         [ResponseType(typeof(LoginStatus))]
 
-        public CreateUserResponse AccountValidation([FromBody] string email)
+        public CreateUserResponse AccountValidation([FromQuery] string email)
         {
             CreateUserResponse response = UserService.ValidateAccount(email);
             return response;
