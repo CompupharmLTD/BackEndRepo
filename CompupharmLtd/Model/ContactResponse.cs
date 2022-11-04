@@ -16,7 +16,7 @@ namespace CompupharmLtd.Model
     {
         public string status { get; set; }
         public int statusCode { get; set; }
-        public IEnumerable<Contact> product { get; set; }
+        public IEnumerable<Contact> contact { get; set; }
     }
 
 }

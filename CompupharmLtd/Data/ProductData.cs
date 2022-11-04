@@ -13,7 +13,6 @@ namespace CompupharmLtd.Data
 
         public static List<Product> ProductList(string value)
         {
-            var res = new Product();
             List<Product> result = new List<Product>();
 
 
@@ -41,7 +40,7 @@ namespace CompupharmLtd.Data
                         {
                             while (reader.Read())
                             {
-                                // ([id],[product_name],[short_desc],[full_desc],[price],[quantity],[created_date],[status]
+                                var res = new Product();
                                 res.ProductID = Convert.ToInt32(reader.GetOrdinal("id"));
                                 res.ProductName = reader["product_name"].ToString().Trim();
                                 res.ProductShortDescription = reader["short_desc"].ToString().Trim();

@@ -1,4 +1,5 @@
-﻿using CompupharmLtd.Model;
+﻿using CompupharmLtd.Data;
+using CompupharmLtd.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,29 +9,112 @@ namespace CompupharmLtd.Service
 {
     public class ContactService
     {
-        internal static ContactListResponse GetAllMessages(string status)
+        internal static ContactListResponse GetAllMessages()
         {
-            throw new NotImplementedException();
+            ContactListResponse contactResponse = new ContactListResponse();
+            List<Contact> result = ContactData.GetAllContactMessage();
+            if (result.Count!=0)
+            {
+                contactResponse.statusCode = 00;
+                contactResponse.status = "successful";
+                contactResponse.contact = result;
+            }else
+            {
+                contactResponse.statusCode = 01;
+                contactResponse.status = "unsuccessful";
+                contactResponse.contact = null;
+            }
+            return contactResponse;
         }
 
-        internal static ContactResponse EditMessage(Contact value)
+        internal static ContactResponse EditMessage(Contact contact)
         {
-            throw new NotImplementedException();
+            Contact editInfo = new Contact()
+            {
+                ticketID =contact.ticketID,
+                Name = contact.Name,
+                Email = contact.Email,
+                PhoneNumber = contact.PhoneNumber,
+                Message = contact.Message,
+            };
+            ContactResponse contactResponse = new ContactResponse();
+            string result = ContactData.EditContactMessage(editInfo);
+            if (result =="00")
+            {
+                contactResponse.statusCode = 00;
+                contactResponse.status = "successful";
+                contactResponse.contact = editInfo;
+                contactResponse.contact.DateCreated = editInfo.DateCreated;
+            }else
+            {
+                contactResponse.statusCode = 01;
+                contactResponse.status = "unsuccessful";
+                contactResponse.contact = null;
+            }
+            return contactResponse;
         }
 
-        internal static ContactResponse DeleteMessage(int id)
+        internal static ContactResponse DeleteMessage(string id)
         {
-            throw new NotImplementedException();
+            ContactResponse contactResponse = new ContactResponse();
+            string result = ContactData.DeleteContactByID(id);
+            if (result == "00")
+            {
+                contactResponse.statusCode = 00;
+                contactResponse.status = "successful";
+                contactResponse.contact = null;
+            }else
+            {
+                contactResponse.statusCode = 01;
+                contactResponse.status = "unsuccessful";
+                contactResponse.contact = null;
+            }
+            return contactResponse;
         }
 
-        internal static ContactResponse GetMessageByID(int id)
+        internal static ContactResponse GetMessageByID(string id)
         {
-            throw new NotImplementedException();
+            ContactResponse contactResponse = new ContactResponse();
+            Contact result = ContactData.GetContactByID(id);
+            if (result.ticketID != null)
+            {
+                contactResponse.statusCode = 00;
+                contactResponse.status = "successful";
+                contactResponse.contact = result;
+            }else
+            {
+                contactResponse.statusCode = 01;
+                contactResponse.status = "unsuccessful";
+                contactResponse.contact = null;
+            }
+            return contactResponse;
         }
 
-        internal static ContactResponse CreateMessage(Contact product)
+        internal static ContactResponse CreateMessage(ContactRequest contact)
         {
-            throw new NotImplementedException();
+            Contact contactInfo = new Contact()
+            {
+                Name=contact.Name,
+                Email = contact.Email,
+                PhoneNumber=contact.PhoneNumber,
+                Message = contact.Message,
+            };
+            ContactResponse contactResponse = new ContactResponse();
+            string result =  ContactData.Create (contact);
+            if (result !="01")
+            {
+                contactResponse.statusCode = 00;
+                contactResponse.status = "successful";
+                contactResponse.contact = contactInfo;
+                contactResponse.contact.ticketID = result;
+            }else
+            {
+                contactResponse.statusCode = 01;
+                contactResponse.status = "unsuccessful";
+                contactResponse.contact = null;
+            }
+            return contactResponse;
+
         }
     }
 }

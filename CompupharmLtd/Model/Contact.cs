@@ -12,5 +12,14 @@ namespace CompupharmLtd.Model
         public string ticketID { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; } 
+        public DateTime DateCreated { get; set; } 
+    }
+    public class ContactRequest
+    {
+        public string Name { get; set; }
+        public string Message { get; set; }
+        public string ticketID { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }
