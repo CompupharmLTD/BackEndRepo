@@ -1,9 +1,6 @@
 ﻿using CompupharmLtd.Data;
 using CompupharmLtd.Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CompupharmLtd.Service
 {
@@ -13,12 +10,13 @@ namespace CompupharmLtd.Service
         {
             ContactListResponse contactResponse = new ContactListResponse();
             List<Contact> result = ContactData.GetAllContactMessage();
-            if (result.Count!=0)
+            if (result.Count != 0)
             {
                 contactResponse.statusCode = 00;
                 contactResponse.status = "successful";
                 contactResponse.contact = result;
-            }else
+            }
+            else
             {
                 contactResponse.statusCode = 01;
                 contactResponse.status = "unsuccessful";
@@ -31,7 +29,7 @@ namespace CompupharmLtd.Service
         {
             Contact editInfo = new Contact()
             {
-                ticketID =contact.ticketID,
+                ticketID = contact.ticketID,
                 Name = contact.Name,
                 Email = contact.Email,
                 PhoneNumber = contact.PhoneNumber,
@@ -39,13 +37,14 @@ namespace CompupharmLtd.Service
             };
             ContactResponse contactResponse = new ContactResponse();
             string result = ContactData.EditContactMessage(editInfo);
-            if (result =="00")
+            if (result == "00")
             {
                 contactResponse.statusCode = 00;
                 contactResponse.status = "successful";
                 contactResponse.contact = editInfo;
                 contactResponse.contact.DateCreated = editInfo.DateCreated;
-            }else
+            }
+            else
             {
                 contactResponse.statusCode = 01;
                 contactResponse.status = "unsuccessful";
@@ -63,7 +62,8 @@ namespace CompupharmLtd.Service
                 contactResponse.statusCode = 00;
                 contactResponse.status = "successful";
                 contactResponse.contact = null;
-            }else
+            }
+            else
             {
                 contactResponse.statusCode = 01;
                 contactResponse.status = "unsuccessful";
@@ -81,7 +81,8 @@ namespace CompupharmLtd.Service
                 contactResponse.statusCode = 00;
                 contactResponse.status = "successful";
                 contactResponse.contact = result;
-            }else
+            }
+            else
             {
                 contactResponse.statusCode = 01;
                 contactResponse.status = "unsuccessful";
@@ -94,20 +95,21 @@ namespace CompupharmLtd.Service
         {
             Contact contactInfo = new Contact()
             {
-                Name=contact.Name,
+                Name = contact.Name,
                 Email = contact.Email,
-                PhoneNumber=contact.PhoneNumber,
+                PhoneNumber = contact.PhoneNumber,
                 Message = contact.Message,
             };
             ContactResponse contactResponse = new ContactResponse();
-            string result =  ContactData.Create (contact);
-            if (result !="01")
+            string result = ContactData.Create(contact);
+            if (result != "01")
             {
                 contactResponse.statusCode = 00;
                 contactResponse.status = "successful";
                 contactResponse.contact = contactInfo;
                 contactResponse.contact.ticketID = result;
-            }else
+            }
+            else
             {
                 contactResponse.statusCode = 01;
                 contactResponse.status = "unsuccessful";

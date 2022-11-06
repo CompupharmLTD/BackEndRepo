@@ -232,7 +232,7 @@ namespace CompupharmLtd.Data
             {
                 DateTime date = DateTime.Now;
 
-                using (SqlCommand command = new SqlCommand($"Delete FROM [dbo].[products] WHERE [product_name] ='{productName}'", connection))
+                using (SqlCommand command = new SqlCommand($"Select * FROM [dbo].[products] WHERE [product_name] ='{productName}'", connection))
                 {
 
 
