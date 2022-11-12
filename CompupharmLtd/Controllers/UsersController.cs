@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Http.Description;
 using CompupharmLtd.Model;
 using CompupharmLtd.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -32,34 +33,38 @@ namespace CompupharmLtd.Controllers
         // POST api/<UsersController>
         [HttpPost]
         [Route("Login")]
-        [ResponseType(typeof(LoginStatus))]
 
-        public LoginStatus Login( [FromBody] LoginUserRequest cred)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Login( [FromBody] LoginUserRequest cred)
         {
-            LoginStatus response =   UserService.Login(cred);
-            return response;
+            Response response =   UserService.Login(cred);
+            return Ok(response);
 
 
         }
         [HttpPost]
         [Route("Create")]
-        [ResponseType(typeof(LoginStatus))]
-
-        public CreateUserResponse Create([FromBody] UserRequest customer)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Create([FromBody] UserRequest customer)
         {
-            CreateUserResponse response = UserService.Create(customer);
-            return response;
+            Response response = UserService.Create(customer);
+            return Ok(response);
 
 
         }
         [HttpPut]
         [Route("AccountValidation")]
-        [ResponseType(typeof(LoginStatus))]
-
-        public CreateUserResponse AccountValidation([FromQuery] string email)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult AccountValidation([FromQuery] string email)
         {
-            CreateUserResponse response = UserService.ValidateAccount(email);
-            return response;
+            Response response = UserService.ValidateAccount(email);
+            return Ok( response);
 
 
         }

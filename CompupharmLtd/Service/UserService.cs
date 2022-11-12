@@ -10,9 +10,9 @@ namespace CompupharmLtd.Service
 {
     public class UserService
     {
-        public static LoginStatus Login(LoginUserRequest cred)
+        public static Response Login(LoginUserRequest cred)
         {
-            var status = new LoginStatus();
+            var status = new Response();
             if (cred.UserName != null)
             {
                 LoginUser result = UserData.LoginData(cred.UserName);
@@ -29,13 +29,13 @@ namespace CompupharmLtd.Service
                       
                         status.statusCode = 00;
                         status.status = "Successfull";
-                        status.userID = userID;
+                        status.data = userID;
 
                     }
                     else {
                         status.statusCode = 01;
                         status.status = "Invalid Username and Password Match";
-                        status.userID = 0;
+                        status.data = 0;
 
                     }
 
@@ -44,9 +44,9 @@ namespace CompupharmLtd.Service
             return status;
         }
 
-        public static CreateUserResponse Create(UserRequest customer)
+        public static Response Create(UserRequest customer)
         {
-            var response = new CreateUserResponse();
+            var response = new Response();
             string result = string.Empty;
             User user = new User
             {
@@ -66,35 +66,35 @@ namespace CompupharmLtd.Service
                 if (user1.UserID != 0)
                 {
                     int userID = Convert.ToInt32(string.Format("{0}{1}", user1.Year, user1.UserID));
-                    response.StatusCode = 00;
-                    response.Status = "Successfull";
-                    response.CustomerID = userID;
+                    response.statusCode = 00;
+                    response.status = "Successfull";
+                    response.data = userID;
                 }
                 else
                 {
-                    response.StatusCode = 02;
-                    response.Status = "Successfull | but couldnt generate ID";
-                    response.CustomerID = 0;
+                    response.statusCode = 02;
+                    response.status = "Successfull | but couldnt generate ID";
+                    response.data = 0;
                 }
               
             }
             else {
-                response.StatusCode = 01;
-                response.Status = "request was  unsuccessful";
+                response.statusCode = 01;
+                response.status = "request was  unsuccessful";
             }
             return response;
         }
 
-        internal static CreateUserResponse ValidateAccount(string email)
+        internal static Response ValidateAccount(string email)
         {
-            var response = new CreateUserResponse();
+            var response = new Response();
             string result = string.Empty;
             User user = UserData.GetUserUsingEmail(email);
       
                 if (user.UserID == 0)
                 {
-                    response.StatusCode = 01;
-                    response.Status = "request was  unsuccessful. User not found";
+                    response.statusCode = 01;
+                    response.status = "request was  unsuccessful. User not found";
                     return response;
                 }
            
@@ -105,14 +105,14 @@ namespace CompupharmLtd.Service
             result = UserData.UpdateData(user);
             if (result == "00")
             {
-                response.StatusCode = 00;
-                response.Status = "Successfull";
+                response.statusCode = 00;
+                response.status = "Successfull";
 
             }
             else
             {
-                response.StatusCode = 01;
-                response.Status = "request was  unsuccessful";
+                response.statusCode = 01;
+                response.status = "request was  unsuccessful";
             }
             return response;
         }

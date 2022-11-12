@@ -9,29 +9,29 @@ namespace CompupharmLtd.Service
 {
     public class ProductService
     {
-        internal static ProductResponse GetProductByID(int id)
+        internal static Response GetProductByID(int id)
         {
-            ProductResponse productResponse = new ProductResponse();
+            Response productResponse = new Response();
             Product product = new Product();
             product = ProductData.GetProduct(id);
             if (product != null)
             {
                 productResponse.statusCode = 00;
                 productResponse.status = "Successful";
-                productResponse.product = product;
+                productResponse.data = product;
             }
             else
             {
                 productResponse.statusCode = 01;
                 productResponse.status = "UnSuccessful";
-                productResponse.product = null;
+                productResponse.data = null;
             }
             return productResponse;
         }
 
-        internal static ProductListResponse GetAllProduct(string status)
+        internal static Response GetAllProduct(string status)
         {
-            ProductListResponse productList = new ProductListResponse();
+            Response productList = new Response();
             List<Product> product = new List<Product>();
             if (status.ToLower() == "all") {
                 product = ProductData.AllProductList();
@@ -39,14 +39,14 @@ namespace CompupharmLtd.Service
                 {
                     productList.statusCode = 00;
                     productList.status = "Successful";
-                    productList.product = product;
+                    productList.data = product;
 
                 }
                 else
                 {
                     productList.statusCode = 01;
                     productList.status = "Unsuccessful";
-                    productList.product = null;
+                    productList.data = null;
 
                 }
                 return productList;
@@ -57,23 +57,23 @@ namespace CompupharmLtd.Service
             if (product != null) {
                 productList.statusCode=00;
                 productList.status="Successful";
-                productList.product = product;
+                productList.data = product;
 
             }
             else
             {
                 productList.statusCode = 01;
                 productList.status = "Unsuccessful";
-                productList.product = null;
+                productList.data = null;
 
             }
 
             return productList;
         }
 
-        internal static ProductResponse DeleteProduct(int id)
+        internal static Response DeleteProduct(int id)
         {
-            ProductResponse productResponse = new ProductResponse();
+            Response productResponse = new Response();
 
             string result = string.Empty;
             result = ProductData.DeleteProduct(id);
@@ -81,21 +81,21 @@ namespace CompupharmLtd.Service
             {
                 productResponse.statusCode = 00;
                 productResponse.status = "Successful";
-                productResponse.product = null;
+                productResponse.data = null;
             }
             else
             {
                 productResponse.statusCode = 01;
                 productResponse.status = "UnSuccessful";
-                productResponse.product = null;
+                productResponse.data = null;
             }
 
             return productResponse;
         }
 
-        internal static ProductResponse EditProduct(ProductEditRequest value )
+        internal static Response EditProduct(ProductEditRequest value )
         {
-            ProductResponse productResponse = new ProductResponse();
+            Response productResponse = new Response();
             string result = string.Empty;
             Product product = new Product();
             product = ProductData.GetProduct(value.ProductID);
@@ -121,26 +121,26 @@ namespace CompupharmLtd.Service
 
                     productResponse.statusCode = 00;
                     productResponse.status = "Successful";
-                    productResponse.product = product;
+                    productResponse.data = product;
                 }else
                 {
                     productResponse.statusCode = 01;
                     productResponse.status = "UnSuccessful, not found";
-                    productResponse.product = null;
+                    productResponse.data = null;
                 }
             }
             else
             {
                 productResponse.statusCode = 01;
                 productResponse.status = "UnSuccessful, not found";
-                productResponse.product = null;
+                productResponse.data = null;
             }
 
             return productResponse;
         }
-        internal static ProductResponse CreateProduct(ProductRequest value)
+        internal static Response CreateProduct(ProductRequest value)
         {
-            ProductResponse productResponse = new ProductResponse();
+            Response productResponse = new Response();
 
             string result = string.Empty;
             result = ProductData.CreateProduct(value);
@@ -151,21 +151,31 @@ namespace CompupharmLtd.Service
                  var prod = ProductData.GetProductUsingName(value.ProductName);
                 if (prod.ProductID != 0)
                 {
-                    productResponse.product = prod;
+                    productResponse.data = prod;
                 }
                 else
                 {
-                    productResponse.product = null;
+                    productResponse.data = null;
                 }
             }
             else
             {
                 productResponse.statusCode = 01;
                 productResponse.status = "UnSuccessful";
-                productResponse.product = null;
+                productResponse.data = null;
             }
 
             return productResponse; 
+        }
+
+        internal static bool ValidateProductEditRequest(ProductEditRequest value)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static bool ValidateProductRequest(ProductRequest product)
+        {
+            throw new NotImplementedException();
         }
     }
 }

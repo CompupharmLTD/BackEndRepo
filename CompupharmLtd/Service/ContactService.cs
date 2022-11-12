@@ -6,26 +6,26 @@ namespace CompupharmLtd.Service
 {
     public class ContactService
     {
-        internal static ContactListResponse GetAllMessages()
+        internal static Response GetAllMessages()
         {
-            ContactListResponse contactResponse = new ContactListResponse();
+            Response contactResponse = new Response();
             List<Contact> result = ContactData.GetAllContactMessage();
             if (result.Count != 0)
             {
                 contactResponse.statusCode = 00;
                 contactResponse.status = "successful";
-                contactResponse.contact = result;
+                contactResponse.data = result;
             }
             else
             {
                 contactResponse.statusCode = 01;
                 contactResponse.status = "unsuccessful";
-                contactResponse.contact = null;
+                contactResponse.data = null;
             }
             return contactResponse;
         }
 
-        internal static ContactResponse EditMessage(Contact contact)
+        internal static Response EditMessage(Contact contact)
         {
             Contact editInfo = new Contact()
             {
@@ -35,63 +35,62 @@ namespace CompupharmLtd.Service
                 PhoneNumber = contact.PhoneNumber,
                 Message = contact.Message,
             };
-            ContactResponse contactResponse = new ContactResponse();
+            Response contactResponse = new Response();
             string result = ContactData.EditContactMessage(editInfo);
             if (result == "00")
             {
                 contactResponse.statusCode = 00;
                 contactResponse.status = "successful";
-                contactResponse.contact = editInfo;
-                contactResponse.contact.DateCreated = editInfo.DateCreated;
+                contactResponse.data = editInfo;
             }
             else
             {
                 contactResponse.statusCode = 01;
                 contactResponse.status = "unsuccessful";
-                contactResponse.contact = null;
+                contactResponse.data = null;
             }
             return contactResponse;
         }
 
-        internal static ContactResponse DeleteMessage(string id)
+        internal static Response DeleteMessage(string id)
         {
-            ContactResponse contactResponse = new ContactResponse();
+            Response contactResponse = new Response();
             string result = ContactData.DeleteContactByID(id);
             if (result == "00")
             {
                 contactResponse.statusCode = 00;
                 contactResponse.status = "successful";
-                contactResponse.contact = null;
+                contactResponse.data = null;
             }
             else
             {
                 contactResponse.statusCode = 01;
                 contactResponse.status = "unsuccessful";
-                contactResponse.contact = null;
+                contactResponse.data = null;
             }
             return contactResponse;
         }
 
-        internal static ContactResponse GetMessageByID(string id)
+        internal static Response GetMessageByID(string id)
         {
-            ContactResponse contactResponse = new ContactResponse();
+            Response contactResponse = new Response();
             Contact result = ContactData.GetContactByID(id);
             if (result.ticketID != null)
             {
                 contactResponse.statusCode = 00;
                 contactResponse.status = "successful";
-                contactResponse.contact = result;
+                contactResponse.data = result;
             }
             else
             {
                 contactResponse.statusCode = 01;
                 contactResponse.status = "unsuccessful";
-                contactResponse.contact = null;
+                contactResponse.data = null;
             }
             return contactResponse;
         }
 
-        internal static ContactResponse CreateMessage(ContactRequest contact)
+        internal static Response CreateMessage(ContactRequest contact)
         {
             Contact contactInfo = new Contact()
             {
@@ -100,20 +99,20 @@ namespace CompupharmLtd.Service
                 PhoneNumber = contact.PhoneNumber,
                 Message = contact.Message,
             };
-            ContactResponse contactResponse = new ContactResponse();
+            Response contactResponse = new Response();
             string result = ContactData.Create(contact);
             if (result != "01")
             {
                 contactResponse.statusCode = 00;
                 contactResponse.status = "successful";
-                contactResponse.contact = contactInfo;
-                contactResponse.contact.ticketID = result;
+                contactResponse.data = contactInfo;
+                contactResponse.data = result;
             }
             else
             {
                 contactResponse.statusCode = 01;
                 contactResponse.status = "unsuccessful";
-                contactResponse.contact = null;
+                contactResponse.data = null;
             }
             return contactResponse;
 

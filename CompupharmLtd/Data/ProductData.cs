@@ -41,15 +41,15 @@ namespace CompupharmLtd.Data
                             while (reader.Read())
                             {
                                 var res = new Product();
-                                res.ProductID = Convert.ToInt32(reader.GetOrdinal("id"));
+                                res.ProductID = reader.GetInt32(0);
+                                res.ProductPrice = reader.GetInt32(4);
+                                res.ProductQuantity = reader.GetInt32(5);
                                 res.ProductName = reader["product_name"].ToString().Trim();
                                 res.ProductShortDescription = reader["short_desc"].ToString().Trim();
                                 res.ProductfullDescription = reader["full_desc"].ToString().Trim();
                                 res.ProductCreatedDate = Convert.ToDateTime(reader.GetDateTime("created_date"));
                                 res.ProductStatus = reader["status"].ToString().Trim();
-                                res.ProductPrice = Convert.ToInt32(reader.GetOrdinal("price"));
-                                res.ProductQuantity = Convert.ToInt32(reader.GetOrdinal("quantity"));
-                                result.Add(res);
+                               result.Add(res);
                             }
                         }
 
@@ -81,7 +81,7 @@ namespace CompupharmLtd.Data
 
         internal static List<Product> AllProductList()
         {
-            var res = new Product();
+          //  var res = new Product();
             List<Product> result = new List<Product>();
 
 
@@ -101,7 +101,7 @@ namespace CompupharmLtd.Data
             try
             {
 
-                using (SqlCommand command = new SqlCommand($"SELECT * FROM[dbo].[products]", connection))
+                using (SqlCommand command = new SqlCommand($"SELECT * FROM[dbo].[products] order by id ASC", connection))
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -109,15 +109,18 @@ namespace CompupharmLtd.Data
                         {
                             while (reader.Read())
                             {
-                                // ([id],[product_name],[short_desc],[full_desc],[price],[quantity],[created_date],[status]
-                                res.ProductID = Convert.ToInt32(reader.GetOrdinal("id"));
+                                var res = new Product();
+                                res.ProductID = reader.GetInt32(0);
+                                res.ProductPrice = reader.GetInt32(4);
+                                res.ProductQuantity = reader.GetInt32(5);
+
                                 res.ProductName = reader["product_name"].ToString().Trim();
                                 res.ProductShortDescription = reader["short_desc"].ToString().Trim();
                                 res.ProductfullDescription = reader["full_desc"].ToString().Trim();
                                 res.ProductCreatedDate = Convert.ToDateTime(reader.GetDateTime("created_date"));
                                 res.ProductStatus = reader["status"].ToString().Trim();
-                                res.ProductPrice = Convert.ToInt32(reader.GetOrdinal("price"));
-                                res.ProductQuantity = Convert.ToInt32(reader.GetOrdinal("quantity"));
+                           
+
                                 result.Add(res);
                             }
                         }
@@ -242,14 +245,13 @@ namespace CompupharmLtd.Data
                             while (reader.Read())
                             {
                                 // ([id],[product_name],[short_desc],[full_desc],[price],[quantity],[created_date],[status]
-                                res.ProductID = Convert.ToInt32(reader.GetOrdinal("id"));
-                                res.ProductName = reader["product_name"].ToString().Trim();
+                                res.ProductID = reader.GetInt32(0);
+                                res.ProductPrice = reader.GetInt32(4);
+                                res.ProductQuantity = reader.GetInt32(5); res.ProductName = reader["product_name"].ToString().Trim();
                                 res.ProductShortDescription = reader["short_desc"].ToString().Trim();
                                 res.ProductfullDescription = reader["full_desc"].ToString().Trim();
                                 res.ProductCreatedDate = Convert.ToDateTime(reader.GetDateTime("created_date"));
                                 res.ProductStatus = reader["status"].ToString().Trim();
-                                res.ProductPrice = Convert.ToInt32(reader.GetOrdinal("price"));
-                                res.ProductQuantity = Convert.ToInt32(reader.GetOrdinal("quantity"));
                             }
                         } }
 
@@ -434,14 +436,13 @@ namespace CompupharmLtd.Data
                             while (reader.Read())
                             {
                                 // ([id],[product_name],[short_desc],[full_desc],[price],[quantity],[created_date],[status]
-                                res.ProductID = Convert.ToInt32(reader.GetOrdinal("id"));
-                                res.ProductName = reader["product_name"].ToString().Trim();
+                                res.ProductID = reader.GetInt32(0);
+                                res.ProductPrice = reader.GetInt32(4);
+                                res.ProductQuantity = reader.GetInt32(5); res.ProductName = reader["product_name"].ToString().Trim();
                                 res.ProductShortDescription = reader["short_desc"].ToString().Trim();
                                 res.ProductfullDescription = reader["full_desc"].ToString().Trim();
                                 res.ProductCreatedDate = Convert.ToDateTime(reader.GetDateTime("created_date"));
                                 res.ProductStatus = reader["status"].ToString().Trim();
-                                res.ProductPrice = Convert.ToInt32(reader.GetOrdinal("price"));
-                                res.ProductQuantity = Convert.ToInt32(reader.GetOrdinal("quantity"));
                             }
                         }
 

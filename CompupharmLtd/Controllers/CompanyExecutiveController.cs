@@ -14,64 +14,105 @@ namespace CompupharmLtd.Controllers
     [ApiController]
     public class CompanyExecutiveController : ControllerBase
     {
+
+
+    
         [HttpGet]
         [Route("ExecutiveList")]
-        [ResponseType(typeof(ExecutiveListResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public ExecutiveListResponse Get()
+        public IActionResult Get()
         {
-            ExecutiveListResponse executiveList;
+            Response executiveList;
             executiveList = ExecutiveService.GetAllExecutive();
-            return executiveList;
+            if (executiveList.status == "01")
+            {
+                NotFound();
+            }
+            return Ok( executiveList);
 
         }
 
         // GET api/<ProductController>/5
         [HttpGet]
         [Route("ExecutiveByID")]
-        [ResponseType(typeof(ExecutiveResponse))]
-        public ExecutiveResponse GetExecutive(int id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult GetExecutive(int id)
         {
-            ExecutiveResponse executive;
+            if (id == 0)
+            {
+                return BadRequest("id cannot be empty or 0");
+            }
+            Response executive;
             executive = ExecutiveService.GetExecutiveByID(id);
-            return executive;
+            if (executive.status == "01")
+            {
+                NotFound();
+            }
+            return Ok(executive);
 
         }
 
         // POST api/<ProductController>
         [HttpPost]
         [Route("CreateExecutive")]
-        [ResponseType(typeof(ExecutiveResponse))]
-
-        public ExecutiveResponse Post(ExecutiveRequest product)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Post(ExecutiveRequest product)
         {
-            ExecutiveResponse executive;
+            Response executive;
             executive = ExecutiveService.CreateExecutive(product);
-            return executive;
+            if (executive.status == "01")
+            {
+                NotFound();
+            }
+            return Ok(executive);
         }
 
         // PUT api/<ProductController>/5
         [HttpPut]
         [Route("EditExecutive")]
-        [ResponseType(typeof(ExecutiveResponse))]
-        public ExecutiveResponse Put([FromBody] ExecutiveEditRequest value)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult Put([FromBody] ExecutiveEditRequest value)
         {
-
-            ExecutiveResponse executive;
+            if (value.ExecutiveID == 0)
+            {
+                return BadRequest("id cannot be empty or 0");
+            }
+            Response executive;
             executive = ExecutiveService.EditExecutive(value);
-            return executive;
+            if (executive.status == "01")
+            {
+                NotFound("couldnt edit data");
+            }
+            return Ok(executive);
         }
 
         // DELETE api/<ProductController>/5
         [HttpDelete]
         [Route("DeleteExecutive")]
-        [ResponseType(typeof(ExecutiveResponse))]
+[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response))]
 
-        public ExecutiveResponse Delete(int id)
+        public IActionResult Delete(int id)
         {
-            ExecutiveResponse executive;
+            if (id == 0)
+            {
+                return BadRequest("id cannot be empty or 0");
+            }
+            Response executive;
             executive = ExecutiveService.DeleteExecutive(id);
-            return executive;
+            if (executive.status == "01")
+            {
+                NotFound();
+            }
+            return Ok(executive);
         }
     }
 }

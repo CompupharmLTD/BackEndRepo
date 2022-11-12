@@ -26,15 +26,10 @@ namespace CompupharmLtd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(
-                    policy =>
-                    {
-                        policy.WithOrigins("*");
-                    });
-            });
-            ;
+            services.AddCors(options => options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin()
+                                                                                      .AllowAnyMethod()
+                                                                                      .AllowAnyHeader()));
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -57,7 +52,7 @@ namespace CompupharmLtd
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors();
+            app.UseCors("AllowAll");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

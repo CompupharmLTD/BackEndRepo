@@ -40,8 +40,8 @@ namespace CompupharmLtd.Data
                             while (reader.Read())
                             {
                                 var res = new Executive();
-                                res.ExecutiveID = Convert.ToInt32(reader.GetOrdinal("ExecutiveID"));
-                                res.ExecutiveYear = Convert.ToInt32(reader.GetOrdinal("ExecutiveYear"));
+                                res.ExecutiveID = reader.GetInt32(0);
+                              //  res.ExecutiveID = Convert.ToInt32(reader.GetOrdinal("ExecutiveID"));
                                 res.Name = reader["Name"].ToString().Trim();
                                 res.ShortDescription = reader["ShortDescription"].ToString().Trim();
                                 res.FullDescription = reader["FullDescription"].ToString().Trim();
@@ -116,7 +116,6 @@ namespace CompupharmLtd.Data
                             while (reader.Read())
                             {
                                 res.ExecutiveID = Convert.ToInt32(reader.GetOrdinal("ExecutiveID"));
-                                res.ExecutiveYear = Convert.ToInt32(reader.GetOrdinal("ExecutiveYear"));
                                 res.Name = reader["Name"].ToString().Trim();
                                 res.ShortDescription = reader["ShortDescription"].ToString().Trim();
                                 res.FullDescription = reader["FullDescription"].ToString().Trim();
@@ -184,9 +183,8 @@ namespace CompupharmLtd.Data
                 DateTime date = DateTime.Now;
                 string format = "yyyy-MM-dd HH:mm:ss";    // modify the format depending upon input required in the column in database 
 
-                using (SqlCommand command = new SqlCommand($"INSERT INTO[dbo].[executive]([ExecutiveYear],[Name],[Email],[AcademmicQualifications],[Title],[ShortDescription],[FullDescription],[Position],[Image],[DateCreated],[DateUpdated],[DateOfBirth],[DateEmployed],[ResignationDate]) VALUES(@ExecutiveYear,@Name,@Email,@AcademmicQualifications,@Title,@ShortDescription,@FullDescription,@Position,@Image,@DateCreated,@DateUpdated,@DateOfBirth,@DateEmployed,@ResignationDate)", connection))
+                using (SqlCommand command = new SqlCommand($"INSERT INTO[dbo].[executive]([Name],[Email],[AcademmicQualifications],[Title],[ShortDescription],[FullDescription],[Position],[Image],[DateCreated],[DateUpdated],[DateOfBirth],[DateEmployed],[ResignationDate]) VALUES(@Name,@Email,@AcademmicQualifications,@Title,@ShortDescription,@FullDescription,@Position,@Image,@DateCreated,@DateUpdated,@DateOfBirth,@DateEmployed,@ResignationDate)", connection))
                 {
-                    command.Parameters.AddWithValue("@ExecutiveYear", date.Year);
                     command.Parameters.AddWithValue("@Name", value.Name);
                     command.Parameters.AddWithValue("@Email", value.Email);
                     command.Parameters.AddWithValue("@AcademmicQualifications", value.AcademmicQualifications);
@@ -268,8 +266,7 @@ namespace CompupharmLtd.Data
                             {
                                 // ([id],[product_name],[short_desc],[full_desc],[price],[quantity],[created_date],[status]
                                 //ar res = new Executive();
-                                res.ExecutiveID = Convert.ToInt32(reader.GetOrdinal("ExecutiveID"));
-                                res.ExecutiveYear = Convert.ToInt32(reader.GetOrdinal("ExecutiveYear"));
+                                res.ExecutiveID = Convert.ToInt32(reader["ExecutiveID"]);
                                 res.Name = reader["Name"].ToString().Trim();
                                 res.ShortDescription = reader["ShortDescription"].ToString().Trim();
                                 res.FullDescription = reader["FullDescription"].ToString().Trim();
@@ -335,7 +332,7 @@ namespace CompupharmLtd.Data
             {
                 DateTime date = DateTime.Now;
 
-                using (SqlCommand command = new SqlCommand($"UPDATE  [dbo].[executive] SET [Name]=@Name,[Email]=@Email,[AcademmicQualifications]=@AcademmicQualifications,[Title]=@Title,[ShortDescription]=ShortDescription,[FullDescription]=FullDescription,[Position]=@Position,Image =Image,DateOfBirth = @DateOfBirth,DateEmployed = @DateEmployed,ResignationDate=@ResignationDate,DateCreated = @DateCreated,DateUpdated = @DateUpdated where ExecutiveID ={value.ExecutiveID}", connection))
+                using (SqlCommand command = new SqlCommand($"UPDATE  [dbo].[executive] SET [Name]=@Name,[Email]=@Email,[AcademmicQualifications]=@AcademmicQualifications,[Title]=@Title,[ShortDescription]=@ShortDescription,[FullDescription]=@FullDescription,[Position]=@Position,Image =@Image,DateOfBirth = @DateOfBirth,DateEmployed = @DateEmployed,ResignationDate=@ResignationDate,DateCreated = @DateCreated,DateUpdated = @DateUpdated where ExecutiveID ={value.ExecutiveID}", connection))
                 {
                     command.Parameters.AddWithValue("@Name", value.Name);
                     command.Parameters.AddWithValue("@Email", value.Email);

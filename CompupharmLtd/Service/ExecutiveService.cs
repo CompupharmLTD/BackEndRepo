@@ -9,9 +9,9 @@ namespace CompupharmLtd.Service
 {
     public class ExecutiveService
     {
-        internal static ExecutiveListResponse GetAllExecutive()
+        internal static Response GetAllExecutive()
         {
-            ExecutiveListResponse executiveList = new ExecutiveListResponse();
+            Response  executiveList = new Response();
             List<Executive> executives = new List<Executive>();
          
                 executives = ExecutiveData.AllExecutiveList();
@@ -19,42 +19,42 @@ namespace CompupharmLtd.Service
                 {
                 executiveList.statusCode = 00;
                 executiveList.status = "Successful";
-                executiveList.executives = executives;
+                executiveList.data = executives;
 
                 }
                 else
                 {
                 executiveList.statusCode = 01;
                 executiveList.status = "Unsuccessful";
-                executiveList.executives = null;
+                executiveList.data = null;
 
                 }
                 return executiveList;
             }
 
-        internal static ExecutiveResponse GetExecutiveByID(int id)
+        internal static Response GetExecutiveByID(int id)
         {
-            ExecutiveResponse executiveResponse= new ExecutiveResponse();
+            Response executiveResponse= new Response();
             Executive executive = new Executive();
             executive = ExecutiveData.GetExecutiveByID(id);
             if (executive!= null)
             {
                 executiveResponse.statusCode = 00;
                 executiveResponse.status = "Successful";
-                executiveResponse.executive = executive;
+                executiveResponse.data = executive;
             }
             else
             {
                 executiveResponse.statusCode = 01;
                 executiveResponse.status = "UnSuccessful";
-                executiveResponse.executive= null;
+                executiveResponse.data= null;
             }
             return executiveResponse;
         }
 
-        internal static ExecutiveResponse CreateExecutive(ExecutiveRequest value)
+        internal static Response CreateExecutive(ExecutiveRequest value)
         {
-            ExecutiveResponse executiveResponse = new ExecutiveResponse();
+          Response executiveResponse = new Response();
             string result = string.Empty;
             Executive executiveEdit = new Executive()
             {
@@ -81,27 +81,27 @@ namespace CompupharmLtd.Service
                 Executive exe = ExecutiveData.GetExecutiveUsingEmail(value.Email);
                 if (exe.ExecutiveID != 0)
                 {
-                    executiveResponse.executive = exe;
+                    executiveResponse.data = exe;
                 }
                 else
                 { 
-                    executiveResponse.executive = null;
+                    executiveResponse.data = null;
                 }
             }
             else
             {
                 executiveResponse.statusCode = 01;
                 executiveResponse.status = "UnSuccessful";
-                executiveResponse.executive = null;
+                executiveResponse.data = null;
             }
 
             return executiveResponse;
         }
 
-        internal static ExecutiveResponse EditExecutive(ExecutiveEditRequest value)
+        internal static Response EditExecutive(ExecutiveEditRequest value)
         {
 
-            ExecutiveResponse executiveResponse = new ExecutiveResponse();
+            Response executiveResponse = new Response();
             string result = string.Empty;
             Executive executive = new Executive();
             executive = ExecutiveData.GetExecutiveByID(value.ExecutiveID);
@@ -136,28 +136,28 @@ namespace CompupharmLtd.Service
 
                     executiveResponse.statusCode = 00;
                     executiveResponse.status = "Successful";
-                    executiveResponse.executive = executive;
+                    executiveResponse.data = executive;
                 }
                 else
                 {
                     executiveResponse.statusCode = 01;
                     executiveResponse.status = "UnSuccessful, not found";
-                    executiveResponse.executive = null;
+                    executiveResponse.data = null;
                 }
             }
             else
             {
                 executiveResponse.statusCode = 01;
                 executiveResponse.status = "UnSuccessful, not found";
-                executiveResponse.executive = null;
+                executiveResponse.data = null;
             }
 
             return executiveResponse;
         }
 
-        internal static ExecutiveResponse DeleteExecutive(int id)
+        internal static Response DeleteExecutive(int id)
         {
-            ExecutiveResponse executiveResponse = new ExecutiveResponse();
+             Response executiveResponse = new Response();
 
             string result = string.Empty;
             result = ExecutiveData.DeleteExecutive(id);
@@ -165,13 +165,13 @@ namespace CompupharmLtd.Service
             {
                 executiveResponse.statusCode = 00;
                 executiveResponse.status = "Successful";
-                executiveResponse.executive = null;
+                executiveResponse.data = null;
             }
             else
             {
                 executiveResponse.statusCode = 01;
                 executiveResponse.status = "UnSuccessful";
-                executiveResponse.executive = null;
+                executiveResponse.data = null;
             }
 
             return executiveResponse;

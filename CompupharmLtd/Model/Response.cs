@@ -10,6 +10,7 @@ namespace CompupharmLtd.Model
 
             public string status { get; set; }
             public int statusCode { get; set; }
+            public Object data { get; set; }
         }
     
 }
