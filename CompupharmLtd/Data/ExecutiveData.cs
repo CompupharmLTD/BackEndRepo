@@ -47,7 +47,7 @@ namespace CompupharmLtd.Data
                                 res.FullDescription = reader["FullDescription"].ToString().Trim();
                                 res.AcademmicQualifications = reader["AcademmicQualifications"].ToString().Trim();
                                 res.Email = reader["Email"].ToString().Trim();
-                                res.Image = reader["Image"].ToString().Trim();
+                              //  res.Image = reader["Image"].ToString().Trim();
                                 res.Title = reader["Title"].ToString().Trim();
                                 res.DateCreated = Convert.ToDateTime(reader.GetDateTime("DateCreated"));
                                 res.Position = reader["Position"].ToString().Trim();
@@ -121,7 +121,7 @@ namespace CompupharmLtd.Data
                                 res.FullDescription = reader["FullDescription"].ToString().Trim();
                                 res.AcademmicQualifications = reader["AcademmicQualifications"].ToString().Trim();
                                 res.Email = reader["Email"].ToString().Trim();
-                                res.Image = reader["Image"].ToString().Trim();
+                                //                       res.Image = reader["Image"].ToString().Trim();
                                 res.Title = reader["Title"].ToString().Trim();
                                 res.DateCreated = Convert.ToDateTime(reader.GetDateTime("DateCreated"));
                                 res.Position = reader["Position"].ToString().Trim();
@@ -183,7 +183,7 @@ namespace CompupharmLtd.Data
                 DateTime date = DateTime.Now;
                 string format = "yyyy-MM-dd HH:mm:ss";    // modify the format depending upon input required in the column in database 
 
-                using (SqlCommand command = new SqlCommand($"INSERT INTO[dbo].[executive]([Name],[Email],[AcademmicQualifications],[Title],[ShortDescription],[FullDescription],[Position],[Image],[DateCreated],[DateUpdated],[DateOfBirth],[DateEmployed],[ResignationDate]) VALUES(@Name,@Email,@AcademmicQualifications,@Title,@ShortDescription,@FullDescription,@Position,@Image,@DateCreated,@DateUpdated,@DateOfBirth,@DateEmployed,@ResignationDate)", connection))
+                using (SqlCommand command = new SqlCommand($"INSERT INTO[dbo].[executive]([Name],[Email],[AcademmicQualifications],[Title],[ShortDescription],[FullDescription],[Position],[DateCreated],[DateUpdated],[DateOfBirth],[DateEmployed],[ResignationDate]) VALUES(@Name,@Email,@AcademmicQualifications,@Title,@ShortDescription,@FullDescription,@Position,@DateCreated,@DateUpdated,@DateOfBirth,@DateEmployed,@ResignationDate)", connection))
                 {
                     command.Parameters.AddWithValue("@Name", value.Name);
                     command.Parameters.AddWithValue("@Email", value.Email);
@@ -192,7 +192,7 @@ namespace CompupharmLtd.Data
                     command.Parameters.AddWithValue("@ShortDescription", value.ShortDescription);
                     command.Parameters.AddWithValue("@FullDescription", value.FullDescription);
                     command.Parameters.AddWithValue("@Position", value.Position);
-                    command.Parameters.AddWithValue("@Image", value.Image);
+                  //  command.Parameters.AddWithValue("@Image", value.Image);
                     command.Parameters.AddWithValue("@DateCreated", SqlDbType.DateTime).Value = date.ToString(format);
                     command.Parameters.AddWithValue("@DateUpdated", SqlDbType.DateTime).Value = date.ToString(format);
                     command.Parameters.AddWithValue("@DateOfBirth", value.DateOfBirth);
@@ -272,7 +272,7 @@ namespace CompupharmLtd.Data
                                 res.FullDescription = reader["FullDescription"].ToString().Trim();
                                 res.AcademmicQualifications = reader["AcademmicQualifications"].ToString().Trim();
                                 res.Email = reader["Email"].ToString().Trim();
-                                res.Image = reader["Image"].ToString().Trim();
+                               // res.Image = reader["Image"].ToString().Trim();
                                 res.Title = reader["Title"].ToString().Trim();
                                 res.DateCreated = Convert.ToDateTime(reader.GetDateTime("DateCreated"));
                                 res.Position = reader["Position"].ToString().Trim();
@@ -332,7 +332,7 @@ namespace CompupharmLtd.Data
             {
                 DateTime date = DateTime.Now;
 
-                using (SqlCommand command = new SqlCommand($"UPDATE  [dbo].[executive] SET [Name]=@Name,[Email]=@Email,[AcademmicQualifications]=@AcademmicQualifications,[Title]=@Title,[ShortDescription]=@ShortDescription,[FullDescription]=@FullDescription,[Position]=@Position,Image =@Image,DateOfBirth = @DateOfBirth,DateEmployed = @DateEmployed,ResignationDate=@ResignationDate,DateCreated = @DateCreated,DateUpdated = @DateUpdated where ExecutiveID ={value.ExecutiveID}", connection))
+                using (SqlCommand command = new SqlCommand($"UPDATE  [dbo].[executive] SET [Name]=@Name,[Email]=@Email,[AcademmicQualifications]=@AcademmicQualifications,[Title]=@Title,[ShortDescription]=@ShortDescription,[FullDescription]=@FullDescription,[Position]=@Position,DateOfBirth = @DateOfBirth,DateEmployed = @DateEmployed,ResignationDate=@ResignationDate,DateCreated = @DateCreated,DateUpdated = @DateUpdated where ExecutiveID ={value.ExecutiveID}", connection))
                 {
                     command.Parameters.AddWithValue("@Name", value.Name);
                     command.Parameters.AddWithValue("@Email", value.Email);
@@ -341,7 +341,7 @@ namespace CompupharmLtd.Data
                     command.Parameters.AddWithValue("@ShortDescription", value.ShortDescription);
                     command.Parameters.AddWithValue("@FullDescription", value.FullDescription);
                     command.Parameters.AddWithValue("@Position", value.Position);
-                    command.Parameters.AddWithValue("@Image", value.Image);
+                   // command.Parameters.AddWithValue("@Image", value.Image);
                     command.Parameters.AddWithValue("@DateCreated", value.DateCreated);
                     command.Parameters.AddWithValue("@DateOfBirth", value.DateOfBirth);
                     command.Parameters.AddWithValue("@DateEmployed", value.DateEmployed);

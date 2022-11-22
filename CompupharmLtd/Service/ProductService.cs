@@ -168,14 +168,17 @@ namespace CompupharmLtd.Service
             return productResponse; 
         }
 
-        internal static bool ValidateProductEditRequest(ProductEditRequest value)
-        {
-            throw new NotImplementedException();
-        }
+     
 
         internal static bool ValidateProductRequest(ProductRequest product)
         {
-            throw new NotImplementedException();
+            bool isValid = false;
+
+            if (!string.IsNullOrEmpty(product.ProductName))
+            {
+                isValid = true;
+            }
+            return isValid;
         }
     }
 }

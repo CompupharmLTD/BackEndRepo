@@ -4,6 +4,6 @@ namespace CompupharmLtd.Service
 {
     public class EmailSendingService
     {
-        public SendEmail();
+     //   public SendEmail();
     }  
     }

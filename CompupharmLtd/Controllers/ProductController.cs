@@ -90,8 +90,8 @@ namespace CompupharmLtd.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Put( [FromBody] ProductEditRequest value)
         {
-            bool productValid = ProductService.ValidateProductEditRequest(value);
-            if (!productValid)
+           // bool productValid = ProductService.ValidateProductEditRequest(value);
+            if (value.ProductID!=0)
             {
                 return BadRequest("Please check input and try again");
 
