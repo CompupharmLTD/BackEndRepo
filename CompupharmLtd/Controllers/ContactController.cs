@@ -74,6 +74,21 @@ namespace CompupharmLtd.Controllers
                 NotFound();
             }
             return Ok(contact);
+        } 
+        [HttpPost]
+        [Route("CreateResponse")]
+[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult PostResponse(ContactResponse product)
+        {
+            Response contact;
+            contact = ContactService.CreateResponseMessage(product);
+            if (contact.status == "01")
+            {
+                NotFound();
+            }
+            return Ok(contact);
         }
 
         // PUT api/<ProductController>/5

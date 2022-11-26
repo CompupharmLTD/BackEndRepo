@@ -1,5 +1,7 @@
 ﻿using CompupharmLtd.Data;
+using CompupharmLtd.Interface;
 using CompupharmLtd.Model;
+using System;
 using System.Collections.Generic;
 
 namespace CompupharmLtd.Service
@@ -34,6 +36,9 @@ namespace CompupharmLtd.Service
                 Email = contact.Email,
                 PhoneNumber = contact.PhoneNumber,
                 Message = contact.Message,
+                Response = contact.Response,
+                Responder = contact.Responder
+
             };
             Response contactResponse = new Response();
             string result = ContactData.EditContactMessage(editInfo);
@@ -115,6 +120,39 @@ namespace CompupharmLtd.Service
                 contactResponse.data = null;
             }
             return contactResponse;
+
+        }
+
+        internal static Response CreateResponseMessage(ContactResponse contact)
+        {
+            Response response = new Response();
+            var res = ContactData.GetContactByID(contact.MessageID);
+            if (res != null) { 
+            if (!string.IsNullOrEmpty(res.Email))
+                {
+                    IEmailSending emailSending = new EmailSendingService();
+                 int result =   emailSending.Send("mipoolugbenga@gmail.com",res.Email,contact.Message,res.Name,"Compupharm"  ); 
+                    if(result == 1)
+                    {
+                        res.Response = contact.Message;
+                        res.Responder = contact.Name;
+                        
+                        string responseSave = ContactData.EditContactMessage(res);
+                        if (responseSave == "00")
+                        {
+                            response.statusCode = 00;
+                            response.status = "OK"; 
+                        }
+                    }
+                    else
+                    {
+                        response.statusCode = 01;
+                        response.status = "Unsuccssful";
+                    }
+
+                }
+            }
+            return response;
 
         }
     }

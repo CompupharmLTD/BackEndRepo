@@ -106,12 +106,14 @@ namespace CompupharmLtd.Data
             {
                 DateTime date = DateTime.Now;
 
-                using (SqlCommand command = new SqlCommand($"Update [dbo].[Contact] Set SenderName= @SenderName,Message = @Message,SenderEmail = @SenderEmail,Sender_PhoneNumber = @Sender_PhoneNumber,Date_Updated = @Date_Updated where ContactID = @ContactID", connection))
+                using (SqlCommand command = new SqlCommand($"Update [dbo].[Contact] Set SenderName= @SenderName,Message = @Message,SenderEmail = @SenderEmail,Sender_PhoneNumber = @Sender_PhoneNumber,Date_Updated = @Date_Updated,Response=@Response,Responder = @Responder where ContactID = @ContactID", connection))
                 {
                     command.Parameters.AddWithValue("@SenderEmail", editInfo.Email);
                     command.Parameters.AddWithValue("@ContactID", editInfo.ticketID);
                     command.Parameters.AddWithValue("@SenderName", editInfo.Name);
                     command.Parameters.AddWithValue("@Message", editInfo.Message);
+                    command.Parameters.AddWithValue("@Response", editInfo.Response);
+                    command.Parameters.AddWithValue("@Responder", editInfo.Responder);
                     command.Parameters.AddWithValue("@Sender_PhoneNumber", editInfo.PhoneNumber);
                     command.Parameters.Add("@Date_Updated", SqlDbType.DateTime).Value = date;
 
@@ -185,6 +187,8 @@ namespace CompupharmLtd.Data
                                 res.Name = reader["SenderName"].ToString().Trim();
                                 res.Email = reader["SenderEmail"].ToString().Trim();
                                 res.Message = reader["Message"].ToString().Trim();
+                                res.Response = reader["Response"].ToString().Trim();
+                                res.Responder = reader["Responder"].ToString().Trim();
                                 res.PhoneNumber = reader["Sender_PhoneNumber"].ToString().Trim();
                                 res.DateCreated = Convert.ToDateTime(reader.GetDateTime("Date_Recieved"));
                                 result.Add(res);
@@ -305,6 +309,8 @@ namespace CompupharmLtd.Data
                             result.Name = reader["SenderName"].ToString().Trim();
                             result.Email = reader["SenderEmail"].ToString().Trim();
                             result.Message = reader["Message"].ToString().Trim();
+                            result.Response = reader["Response"].ToString().Trim();
+                            result.Responder = reader["Responder"].ToString().Trim();
                             result.PhoneNumber = reader["Sender_PhoneNumber"].ToString().Trim();
                             result.DateCreated = Convert.ToDateTime(reader.GetDateTime("Date_Recieved"));
 
