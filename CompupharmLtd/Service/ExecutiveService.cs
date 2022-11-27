@@ -17,6 +17,10 @@ namespace CompupharmLtd.Service
                 executives = ExecutiveData.AllExecutiveList();
                 if (executives != null)
                 {
+                foreach(Executive exec in executives)
+                {
+                    exec.Image = BlobService.GetBlob(exec.Name);
+                }
                 executiveList.statusCode = 00;
                 executiveList.status = "Successful";
                 executiveList.data = executives;
@@ -39,6 +43,7 @@ namespace CompupharmLtd.Service
             executive = ExecutiveData.GetExecutiveByID(id);
             if (executive!= null)
             {
+                executive.Image = BlobService.GetBlob(executive.Name);
                 executiveResponse.statusCode = 00;
                 executiveResponse.status = "Successful";
                 executiveResponse.data = executive;
@@ -76,6 +81,7 @@ namespace CompupharmLtd.Service
             result = ExecutiveData.CreateExecutive(executiveEdit);
             if (result == "00")
             {
+                BlobService.Upload(executiveEdit.Name, executiveEdit.Image);
                 executiveResponse.statusCode = 00;
                 executiveResponse.status = "Successful";
                 Executive exe = ExecutiveData.GetExecutiveUsingEmail(value.Email);
@@ -133,6 +139,7 @@ namespace CompupharmLtd.Service
                 if (result == "00")
                 {
 
+                    BlobService.Upload(executiveEdit.Name, executiveEdit.Image);
 
                     executiveResponse.statusCode = 00;
                     executiveResponse.status = "Successful";
@@ -158,14 +165,23 @@ namespace CompupharmLtd.Service
         internal static Response DeleteExecutive(int id)
         {
              Response executiveResponse = new Response();
-
+            Executive exec = ExecutiveData.GetExecutiveByID(id);
             string result = string.Empty;
             result = ExecutiveData.DeleteExecutive(id);
             if (result == "00")
             {
+                if (BlobService.Delete(exec.Name))
+                {
+                    executiveResponse.statusCode = 00;
+                    executiveResponse.status = "Successful";
+                    executiveResponse.data = null;
+                    return executiveResponse;
+                }
+
                 executiveResponse.statusCode = 00;
-                executiveResponse.status = "Successful";
+                executiveResponse.status = "Successful, couldnt delete blob image";
                 executiveResponse.data = null;
+                return executiveResponse;
             }
             else
             {

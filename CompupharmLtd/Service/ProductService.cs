@@ -16,6 +16,7 @@ namespace CompupharmLtd.Service
             product = ProductData.GetProduct(id);
             if (product != null)
             {
+                product.ProductImage= BlobService.GetBlob(product.ProductName);    
                 productResponse.statusCode = 00;
                 productResponse.status = "Successful";
                 productResponse.data = product;
@@ -37,6 +38,11 @@ namespace CompupharmLtd.Service
                 product = ProductData.AllProductList();
                 if (product != null)
                 {
+                    foreach(Product prod in product)
+                    {
+                       prod.ProductImage =  BlobService.GetBlob(prod.ProductName);
+                        
+                    }
                     productList.statusCode = 00;
                     productList.status = "Successful";
                     productList.data = product;
@@ -55,6 +61,12 @@ namespace CompupharmLtd.Service
 
             product = ProductData.ProductList(status);
             if (product != null) {
+
+                foreach (Product prod in product)
+                {
+                    prod.ProductImage = BlobService.GetBlob(prod.ProductName);
+
+                }
                 productList.statusCode=00;
                 productList.status="Successful";
                 productList.data = product;
@@ -74,11 +86,12 @@ namespace CompupharmLtd.Service
         internal static Response DeleteProduct(int id)
         {
             Response productResponse = new Response();
-
+            Product prod = ProductData.GetProduct(id);
             string result = string.Empty;
             result = ProductData.DeleteProduct(id);
             if (result =="00")
             {
+                BlobService.Delete(prod.ProductName);
                 productResponse.statusCode = 00;
                 productResponse.status = "Successful";
                 productResponse.data = null;
@@ -116,9 +129,9 @@ namespace CompupharmLtd.Service
                     ProductRestriction = value.ProductRestriction,
                 };
                 result =ProductData.EditProduct(productEdit);
-                if (result == "00") {                
+                if (result == "00") {
 
-
+                    BlobService.Upload(productEdit.ProductName, productEdit.ProductImage);
                     productResponse.statusCode = 00;
                     productResponse.status = "Successful";
                     productResponse.data = product;
@@ -146,14 +159,21 @@ namespace CompupharmLtd.Service
             result = ProductData.CreateProduct(value);
             if (result =="00")
             {
+                if(!BlobService.Upload(value.ProductName, value.ProductImage))
+                {
+                    productResponse.statusCode = 02;
+                    productResponse.status = "Successfully created, couldnt upload image";
+                }
                 productResponse.statusCode = 00;
                 productResponse.status = "Successful";
                  var prod = ProductData.GetProductUsingName(value.ProductName);
                 if (prod.ProductID != 0)
                 {
+                  prod.ProductImage=  BlobService.GetBlob(value.ProductName);
+
                     productResponse.data = prod;
                 }
-                else
+                else     
                 {
                     productResponse.data = null;
                 }
