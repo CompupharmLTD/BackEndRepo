@@ -304,9 +304,8 @@ namespace CompupharmLtd.Data
             {
                 DateTime date = DateTime.Now;
 
-                using (SqlCommand command = new SqlCommand($"UPDATE  [dbo].[products] SET [product_name]='{value.ProductName}',[short_desc]='{value.ProductShortDescription}',[full_desc]='{value.ProductfullDescription}',[price]={value.ProductPrice},[quantity]={value.ProductQuantity},[created_date]=@created_date,[status]='{value.ProductStatus}',[updated_date]=@updated_date where id ={value.ProductID}", connection))
+                using (SqlCommand command = new SqlCommand($"UPDATE  [dbo].[products] SET [product_name]='{value.ProductName}',[short_desc]='{value.ProductShortDescription}',[full_desc]='{value.ProductfullDescription}',[price]={value.ProductPrice},[quantity]={value.ProductQuantity},[status]='{value.ProductStatus}',[updated_date]=@updated_date where id ={value.ProductID}", connection))
                 {
-                  command.Parameters.Add("@created_date", SqlDbType.DateTime).Value = value.ProductCreatedDate;
                   command.Parameters.Add("@updated_date", SqlDbType.DateTime).Value = date;
 
 

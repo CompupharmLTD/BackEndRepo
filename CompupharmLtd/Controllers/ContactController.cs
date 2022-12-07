@@ -67,6 +67,10 @@ namespace CompupharmLtd.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Post(ContactRequest product)
         {
+            if (!UtilityService.IsPhoneNbr(product.PhoneNumber) && !UtilityService.IsValidEmail(product.Email))
+            {
+                return BadRequest("phone number and email invalid");
+            }
             Response contact;
             contact = ContactService.CreateMessage(product);
             if (contact.status == "01")
@@ -105,7 +109,10 @@ namespace CompupharmLtd.Controllers
                 return NotFound("Id cannot be empty");
 
             }
-
+            if (!UtilityService.IsPhoneNbr(value.PhoneNumber) && !UtilityService.IsValidEmail(value.Email))
+            {
+                return BadRequest("phone number and email invalid");
+            }
             Response contact;
             contact = ContactService.EditMessage(value);
             if (contact.status == "01")

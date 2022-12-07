@@ -126,7 +126,6 @@ namespace CompupharmLtd.Service
                     ProductPrice = value.ProductPrice,
                     ProductQuantity = value.ProductQuantity,
                     ProductImage = value.ProductImage,
-                    ProductRestriction = value.ProductRestriction,
                 };
                 result =ProductData.EditProduct(productEdit);
                 if (result == "00") {
@@ -134,7 +133,7 @@ namespace CompupharmLtd.Service
                     BlobService.Upload(productEdit.ProductName, productEdit.ProductImage);
                     productResponse.statusCode = 00;
                     productResponse.status = "Successful";
-                    productResponse.data = product;
+                    productResponse.data = productEdit;
                 }else
                 {
                     productResponse.statusCode = 01;

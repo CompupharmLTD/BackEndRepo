@@ -115,7 +115,7 @@ namespace CompupharmLtd.Data
                         {
                             while (reader.Read())
                             {
-                                res.ExecutiveID = Convert.ToInt32(reader.GetOrdinal("ExecutiveID"));
+                                res.ExecutiveID = reader.GetInt32(0);
                                 res.Name = reader["Name"].ToString().Trim();
                                 res.ShortDescription = reader["ShortDescription"].ToString().Trim();
                                 res.FullDescription = reader["FullDescription"].ToString().Trim();
@@ -266,7 +266,7 @@ namespace CompupharmLtd.Data
                             {
                                 // ([id],[product_name],[short_desc],[full_desc],[price],[quantity],[created_date],[status]
                                 //ar res = new Executive();
-                                res.ExecutiveID = Convert.ToInt32(reader["ExecutiveID"]);
+                                res.ExecutiveID = reader.GetInt32(0);
                                 res.Name = reader["Name"].ToString().Trim();
                                 res.ShortDescription = reader["ShortDescription"].ToString().Trim();
                                 res.FullDescription = reader["FullDescription"].ToString().Trim();

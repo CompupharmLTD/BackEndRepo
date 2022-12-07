@@ -8,7 +8,6 @@ namespace CompupharmLtd.Model
     public class Executive
     {
         public int ExecutiveID { get; set; }
-        public int ExecutiveYear { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string AcademmicQualifications { get; set; }
@@ -42,7 +41,6 @@ namespace CompupharmLtd.Model
     public class ExecutiveEditRequest
     {
         public int ExecutiveID { get; set; }
-        public int ExecutiveYear { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string AcademmicQualifications { get; set; }

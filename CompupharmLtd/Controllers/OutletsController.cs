@@ -64,6 +64,10 @@ namespace CompupharmLtd.Controllers
 
         public IActionResult Post(OutletRequest Coutlet)
         {
+            if (!UtilityService.IsPhoneNbr(Coutlet.PhoneNumber) && !UtilityService.IsValidEmail(Coutlet.Email))
+            {
+                return BadRequest("phone number and email invalid");
+            }
 
             Response outlet;
             outlet = OutletService.CreateOutlet(Coutlet);
@@ -86,6 +90,11 @@ namespace CompupharmLtd.Controllers
             {
                 return BadRequest("Id cannot be 0");
             }
+            if (!UtilityService.IsPhoneNbr(value.PhoneNumber) && !UtilityService.IsValidEmail(value.Email))
+            {
+                return BadRequest("phone number and email invalid");
+            }
+
 
             Response outletResponse;
             outletResponse = OutletService.EditOutlet(value);

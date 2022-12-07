@@ -7,6 +7,7 @@ using CompupharmLtd.Model;
 using CompupharmLtd.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -51,6 +52,11 @@ namespace CompupharmLtd.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Create([FromBody] UserRequest customer)
         {
+
+            if (!UtilityService.IsPhoneNbr(customer.CompanyPhone) && !UtilityService.IsValidEmail(customer.Email))
+            {
+                return BadRequest("phone number and email invalid");
+            }
             Response response = UserService.Create(customer);
             return Ok(response);
 

@@ -29,7 +29,7 @@ namespace CompupharmLtd.Data
 try
             {
 
-                    using (SqlCommand command = new SqlCommand($"SELECT UserID,Year,Password ,UserName FROM[dbo].[Customer] where UserName = '{value.ToLower()}'", connection))
+                    using (SqlCommand command = new SqlCommand($"SELECT UserID,Password ,UserName,LastLogin FROM[dbo].[LoginCred] where UserName = '{value.ToLower()}'", connection))
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
@@ -42,7 +42,6 @@ try
 
                             result.Password = reader["Password"].ToString().Trim() ;
                                 result.UserName = reader["UserName"].ToString().Trim();
-                                result.Year = int.Parse(reader["Year"].ToString());
 
                         }  
 
@@ -94,20 +93,12 @@ try
             {
                 DateTime date = DateTime.Now;
 
-                            SqlCommand cmd = new SqlCommand($"INSERT INTO [dbo].[Customer] ([Year],[CompanyName],[UserName],[CompanyEmail] ,[CompanyPhone],[Password],[AccountVerified] ,[Date_Created],[Date_Updated] ,[CompanyAddress],[DateVerified]) VALUES (@yearID,@CompanyName,@UserName,@CompanyEmail,@CompanyPhone,@Password,@AccountVerified,@Date_Created,@Date_Updated,@CompanyAddress,@DateVerified)", connection);
-       
-                            cmd.Parameters.AddWithValue("@CompanyName", customer.CompanyName);
-                            cmd.Parameters.AddWithValue("@CompanyPhone", customer.CompanyPhone);
-                            cmd.Parameters.AddWithValue("@CompanyEmail", customer.Email);
+                            SqlCommand cmd = new SqlCommand($"INSERT INTO [dbo].[LoginCred] ([UserID],[UserName],[Passwoerd],[LastLogin]) VALUES (@UserID,@UserName,@Password,@LastLogin)", connection);
+                         
+                            cmd.Parameters.AddWithValue("@UserID", customer.CompanyName);
                             cmd.Parameters.AddWithValue("@Password", customer.Password.ToLower());
                             cmd.Parameters.AddWithValue("@UserName", customer.Username.ToLower());
-                            cmd.Parameters.AddWithValue("@yearID",date.Year);
-                            cmd.Parameters.AddWithValue("@CompanyAddress", customer.CompanyAddress);
-                        //    cmd.Parameters.AddWithValue("@CompanyCertificate", customer.CompanyCertificate);
-                            cmd.Parameters.AddWithValue("@AccountVerified", 1);
-                            cmd.Parameters.AddWithValue("@Date_Created", customer.Date_Created).Value=date;
-                            cmd.Parameters.AddWithValue("@Date_Updated", customer.Date_Updated).Value = date;
-                            cmd.Parameters.AddWithValue("@DateVerified", customer.Date_Verified).Value = date;
+                            cmd.Parameters.AddWithValue("@LastLogin", customer.Date_Created).Value = date;
                            ret = cmd.ExecuteNonQuery();
                 if (ret == 1)
                 {
@@ -233,20 +224,10 @@ try
             {
                 DateTime date = DateTime.Now;
 
-                SqlCommand cmd = new SqlCommand($"Update [dbo].[Customer] set [CompanyName]=@CompanyName,[UserName]=@UserName,[CompanyEmail]=@CompanyEmail,[CompanyPhone]=@CompanyPhone,[Password]=@Password,[AccountVerified]=@AccountVerified,[Date_Updated]=@DateUpdated,[CompanyAddress]=@CompanyAddress,[DateVerified]=@DateVerified where Year=@yearID AND UserID={customer.UserID}", connection);
+                SqlCommand cmd = new SqlCommand($"Update [dbo].[LoginCred] set [UserName]=@UserName,[Password]=@Password, where  UserID={customer.UserID}", connection);
 
-                cmd.Parameters.AddWithValue("@CompanyName", customer.CompanyName);
-                cmd.Parameters.AddWithValue("@CompanyPhone", customer.CompanyPhone);
-                cmd.Parameters.AddWithValue("@CompanyEmail", customer.Email);
-                cmd.Parameters.AddWithValue("@Password", customer.Password);
-                cmd.Parameters.AddWithValue("@UserName", customer.Username);
-                cmd.Parameters.AddWithValue("@yearID", customer.Year);
-                cmd.Parameters.AddWithValue("@CompanyAddress", customer.CompanyAddress);
-              //cmd.Parameters.AddWithValue("@CompanyCertificate", customer.CompanyCertificate);
-                cmd.Parameters.AddWithValue("@AccountVerified", customer.AccountVerified);
-                cmd.Parameters.AddWithValue("@Date_Created", customer.Date_Created);
-                cmd.Parameters.AddWithValue("@DateUpdated", customer.Date_Updated).Value = date;
-                cmd.Parameters.AddWithValue("@DateVerified", customer.Date_Verified);
+                cmd.Parameters.AddWithValue("@Password", customer.Password.ToLower());
+                cmd.Parameters.AddWithValue("@UserName", customer.Username.ToLower());
                 ret = cmd.ExecuteNonQuery();
                 if (ret == 1)
                 {
@@ -273,7 +254,7 @@ try
             //Console.ReadLine();
 
 
-
+             
             return result;
         }
     }

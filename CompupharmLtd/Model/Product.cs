@@ -9,7 +9,6 @@ namespace CompupharmLtd.Model
     {
         public string ProductName { get; set; }
         public int ProductID { get; set; }
-        public string ProductRestriction { get; set; }
         public string ProductImage { get; set; }
         public string ProductfullDescription { get;  set; }
         public string ProductShortDescription { get;  set; }  
@@ -22,7 +21,6 @@ namespace CompupharmLtd.Model
     {
         public string ProductName { get; set; }
     //    public int ProductID { get; set; }
-        public string ProductRestriction { get; set; }
         public string ProductImage { get; set; }
         public string ProductfullDescription { get; set; }
         public string ProductShortDescription { get; set; }
@@ -36,7 +34,6 @@ namespace CompupharmLtd.Model
     {
         public string ProductName { get; set; }
         public int ProductID { get; set; }
-        public string ProductRestriction { get; set; }
         public string ProductImage { get; set; }
         public string ProductfullDescription { get; set; }
         public string ProductShortDescription { get; set; }

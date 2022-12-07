@@ -24,7 +24,7 @@ namespace CompupharmLtd.Service
             MailMessage usermail = Mailbodplain(fromad, toad, body, header, subjectcontent);
             SmtpClient client = new SmtpClient();
             //Add the Creddentials- use your own email id and password
-            client.Credentials = new System.Net.NetworkCredential("ritzyrosabel@gmail.com", "japgiytobqlyyykv"); ;
+            client.Credentials = new System.Net.NetworkCredential("compupharml@gmail.com", "vkrzekxnpykihkhc"); 
 
             client.Host = "smtp.gmail.com";
             client.Port = 587;

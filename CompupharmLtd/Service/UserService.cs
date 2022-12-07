@@ -23,9 +23,10 @@ namespace CompupharmLtd.Service
                 }
                 else {
                    // Regex.Replace(result.UserName, @"\s+", "");
-                   if (result.Password.Trim() == cred.Password.ToLower())
+                   if (result.Password.Trim().ToLower() == cred.Password.ToLower())
                     {
-                        int userID = Convert.ToInt32(string.Format("{0}{1}",result.Year, result.UserID));
+                        string year = "2022";
+                        int userID = Convert.ToInt32(string.Format("{0}{1}",year, result.UserID));
                       
                         status.statusCode = 00;
                         status.status = "Successfull";

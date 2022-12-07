@@ -91,7 +91,7 @@ namespace CompupharmLtd.Controllers
         public IActionResult Put( [FromBody] ProductEditRequest value)
         {
            // bool productValid = ProductService.ValidateProductEditRequest(value);
-            if (value.ProductID!=0)
+            if (value.ProductID==0)
             {
                 return BadRequest("Please check input and try again");
 

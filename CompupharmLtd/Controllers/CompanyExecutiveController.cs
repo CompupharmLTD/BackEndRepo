@@ -7,6 +7,7 @@ using CompupharmLtd.Model;
 using CompupharmLtd.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace CompupharmLtd.Controllers
 {
@@ -65,6 +66,10 @@ namespace CompupharmLtd.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Post(ExecutiveRequest product)
         {
+            if (!UtilityService.IsValidEmail(product.Email))
+            {
+                return BadRequest("email invalid");
+            }
             Response executive;
             executive = ExecutiveService.CreateExecutive(product);
             if (executive.status == "01")
@@ -86,6 +91,12 @@ namespace CompupharmLtd.Controllers
             {
                 return BadRequest("id cannot be empty or 0");
             }
+
+            if (!UtilityService.IsValidEmail(value.Email))
+            {
+                return BadRequest("email invalid");
+            }
+
             Response executive;
             executive = ExecutiveService.EditExecutive(value);
             if (executive.status == "01")
